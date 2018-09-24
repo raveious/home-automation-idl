@@ -23,10 +23,10 @@ function(fastrtpsgen idl_files output_files)
         DEPENDS ${idl_file}
     )
 
-    list(APPEND SOURCES ${PROJECT_BINARY_DIR}/generated/src/${cpp_file}
-                        ${PROJECT_BINARY_DIR}/generated/src/${cpp_file_types}
-                        ${PROJECT_BINARY_DIR}/generated/include/${header_file}
-                        ${PROJECT_BINARY_DIR}/generated/include/${header_file_types})
+    list(APPEND ${output_files} ${PROJECT_BINARY_DIR}/generated/src/${cpp_file}
+                                ${PROJECT_BINARY_DIR}/generated/src/${cpp_file_types}
+                                ${PROJECT_BINARY_DIR}/generated/include/${header_file}
+                                ${PROJECT_BINARY_DIR}/generated/include/${header_file_types})
 
     set(${output_files} ${${output_files}} PARENT_SCOPE)
     include_directories(${PROJECT_BINARY_DIR}/generated/include)
