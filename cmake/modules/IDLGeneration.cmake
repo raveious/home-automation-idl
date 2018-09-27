@@ -20,6 +20,7 @@ function(fastrtpsgen idl_files output_files)
         COMMAND mkdir -p ${PROJECT_BINARY_DIR}/generated/src
         COMMAND ${FASTRTPSGEN} -d ${PROJECT_BINARY_DIR}/generated/include -replace ${idl_file}
         COMMAND mv ${PROJECT_BINARY_DIR}/generated/include/*.cxx ${PROJECT_BINARY_DIR}/generated/src/
+        COMMENT "Generating source from ${idl_file}"
         DEPENDS ${idl_file}
     )
 
