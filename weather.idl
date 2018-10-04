@@ -1,76 +1,41 @@
 enum PrecipType {
-  RAINING,
-  SNOWING,
-  SLEETING
+    NO_PRECIP,
+    RAINING,
+    SNOWING,
+    SLEETING
 };
 
 enum WeatherIcon {
-  CLEAR_DAY,
-  CLEAR_NIGHT,
-  RAIN,
-  SNOW,
-  SLEET,
-  WIND,
-  FOG,
-  CLOUDY,
-  PARTLY_CLOUDY_DAY,
-  PARTLY_CLOUDY_NIGHT,
-  HAIL,
-  THUNDERSTORM,
-  TORNADO
+    CLEAR_DAY,
+    CLEAR_NIGHT,
+    RAIN,
+    SNOW,
+    SLEET,
+    WIND,
+    FOG,
+    CLOUDY,
+    PARTLY_CLOUDY_DAY,
+    PARTLY_CLOUDY_NIGHT,
+    HAIL,
+    THUNDERSTORM,
+    TORNADO
 };
 
-struct WeatherCondition {
-    float               apparentTemperature;
-    float               cloudCover;
-    float               dewPoint;
-    float               humidity;
-    WeatherIcon         icon;
-    float               nearestStormBearing;
-    float               nearestStormDistance;
-    float               ozone;
+struct Precipitation {
     float               precipIntensity;
     float               precipIntensityError;
     float               precipProbability;
     PrecipType          precipType;
-    float               pressure;
-    string              summary;
-    float               temperature;
-    unsigned long long  time;
-    float               uvIndex;
-    float               visibility;
-    float               windBearing;
-    float               windGust;
-    float               windSpeed;
+    float               precipAccumulation;
+    float               precipIntensityMax;
 };
 
-struct DailyWeather {
-    float               apparentTemperatureHigh;
-    unsigned long long  apparentTemperatureHighTime;
-    float               apparentTemperatureLow;
-    unsigned long long  apparentTemperatureLowTime;
+struct Atmospheric {
     float               cloudCover;
     float               dewPoint;
     float               humidity;
-    WeatherIcon         icon;
-    float               moonPhase;
     float               ozone;
-    float               precipAccumulation;
-    float               precipIntensity;
-    float               precipIntensityMax;
-    unsigned long long  precipIntensityMaxTime;
-    float               precipProbability;
-    PrecipType          precipType;
     float               pressure;
-    string              summary;
-    unsigned long long  sunriseTime;
-    unsigned long long  sunsetTime;
-    float               temperature;
-    float               temperatureHigh;
-    unsigned long long  temperatureHighTime;
-    float               temperatureLow;
-    unsigned long long  temperatureLowTime;
-    unsigned long long  time;
     float               uvIndex;
     unsigned long long  uvIndexTime;
     float               visibility;
@@ -80,8 +45,43 @@ struct DailyWeather {
     float               windSpeed;
 };
 
+struct WeatherCondition {
+    float               apparentTemperature;
+    WeatherIcon         icon;
+    string              summary;
+    float               temperature;
+    unsigned long long  time;
+    Precipitation       precipitationData;
+    Atmospheric         atmosphericData;
+};
+
+struct DailyWeather {
+    float               apparentTemperature;
+    float               apparentTemperatureHigh;
+    unsigned long long  apparentTemperatureHighTime;
+    float               apparentTemperatureLow;
+    unsigned long long  apparentTemperatureLowTime;
+    Precipitation       precipitationData;
+    Atmospheric         atmosphericData;
+    WeatherIcon         icon;
+    string              summary;
+    float               moonPhase;
+    unsigned long long  sunriseTime;
+    unsigned long long  sunsetTime;
+    float               temperature;
+    float               temperatureHigh;
+    unsigned long long  temperatureHighTime;
+    float               temperatureLow;
+    unsigned long long  temperatureLowTime;
+    unsigned long long  time;
+};
+
 struct WeatherForcast {
   string summary;
   WeatherIcon icon;
   sequence<DailyWeather> forcast;
+};
+
+struct WeatherAlert {
+
 };
