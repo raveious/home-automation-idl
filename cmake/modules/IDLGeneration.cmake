@@ -1,5 +1,6 @@
 
 find_program(FASTRTPSGEN fastrtpsgen)
+find_program(MICROXRCEDDSGEN microxrceddsgen)
 
 if (FASTRTPSGEN)
 function(fastrtpsgen idl_files output_files)
@@ -33,3 +34,31 @@ function(fastrtpsgen idl_files output_files)
   endforeach(idl_file)
 endfunction(fastrtpsgen)
 endif(FASTRTPSGEN)
+
+if (MICROXRCEDDSGEN)
+function(microxrceddsgen idl_files output_files)
+  foreach(idl_file ${idl_files})
+
+    get_filename_component(idl_name ${idl_file} NAME_WE)
+
+    set(c_file ${idl_name}.c)
+    set(header_file ${idl_name}.h)
+
+    add_custom_command(OUTPUT ${PROJECT_BINARY_DIR}/generated/${PROJECT_NAME}/src/${c_file}
+                              ${PROJECT_BINARY_DIR}/generated/${PROJECT_NAME}/include/${header_file}
+        COMMAND mkdir -p ${PROJECT_BINARY_DIR}/generated/${PROJECT_NAME}/include ${PROJECT_BINARY_DIR}/generated/${PROJECT_NAME}/src
+        COMMAND ${MICROXRCEDDSGEN} -d ${PROJECT_BINARY_DIR}/generated/${PROJECT_NAME}/include -replace ${idl_file}
+        COMMAND mv ${PROJECT_BINARY_DIR}/generated/${PROJECT_NAME}/include/*.c ${PROJECT_BINARY_DIR}/generated/${PROJECT_NAME}/src/
+        COMMENT "Generating source from ${idl_file}"
+        DEPENDS ${idl_file}
+    )
+
+    list(APPEND ${output_files} ${PROJECT_BINARY_DIR}/generated/${PROJECT_NAME}/src/${c_file}
+                                ${PROJECT_BINARY_DIR}/generated/${PROJECT_NAME}/include/${header_file})
+
+    set(${output_files} ${${output_files}} PARENT_SCOPE)
+    include_directories(${PROJECT_BINARY_DIR}/generated/${PROJECT_NAME}/include)
+  endforeach(idl_file)
+endfunction(microxrceddsgen)
+endif(MICROXRCEDDSGEN)
+
